@@ -1,4 +1,6 @@
-# Gaica
+# Gaica (Shinsei Bank)
+https://www.gaica.jp/
+
 Fetch balance and domestic/international spendings from command line (残高照会)
 
 ## Setup
