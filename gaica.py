@@ -137,4 +137,4 @@ class GaicaClient:
 
 
 if __name__ == '__main__':
-    GaicaClient().charge()
+    GaicaClient().fetch_balance()
