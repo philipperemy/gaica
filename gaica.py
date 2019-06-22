@@ -12,8 +12,8 @@ soup = bs4.BeautifulSoup(resp.content, 'lxml')
 nablarch_hidden = soup.find('input', {'name': 'nablarch_hidden'}).attrs['value']
 nablarch_needs_hidden_encryption = soup.find('input', {'name': 'nablarch_needs_hidden_encryption'}).attrs['value']
 
-payload = {'usrId': os.environ['USER'],
-           'password': os.environ['PASS'],
+payload = {'usrId': os.environ['GAICA_USER'],
+           'password': os.environ['GAICA_PASS'],
            'nablarch_needs_hidden_encryption': nablarch_needs_hidden_encryption,
            'nablarch_hidden': nablarch_hidden,
            'nablarch_submit': 'nablarch_form1_1'}
