@@ -1,3 +1,4 @@
+import json
 import os
 
 from flask import Flask, request
@@ -5,6 +6,15 @@ from flask import Flask, request
 from gaica import GaicaClient
 
 app = Flask(__name__)
+
+
+def pretty(d, indent=0, output_list=[]):
+    for key, value in d.items():
+        output_list.append('\t' * indent + str(key))
+        if isinstance(value, dict):
+            pretty(value, indent + 1, output_list)
+        else:
+            output_list.append('\t' * (indent + 1) + str(value))
 
 
 @app.route('/hello', methods=['GET'])
@@ -18,7 +28,12 @@ def balance():
     password = request.values['gaica_pass']
     os.environ['GAICA_USER'] = user
     os.environ['GAICA_PASS'] = password
-    return GaicaClient().fetch_balance()
+    current_balance = json.loads(GaicaClient().fetch_balance())
+    o = []
+    pretty(current_balance, indent=0, output_list=o) # updates o
+    output_str = '\n'.join(o)
+    return output_str
+    # '通貨コード'
 
 
 @app.route('/charge', methods=['POST'])
