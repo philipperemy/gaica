@@ -58,7 +58,7 @@ class GaicaClient:
                  a.attrs['value'] != '']
 
         payload = {'nablarch_hidden': attrs[-1], 'nablarch_submit': 'nablarch_form4_1',
-                   'W13D401.ksiCrcCod': '392', 'W13D401.ksiKkgNkg': '1000'}
+                   'W13D401.ksiCrcCod': '392', 'W13D401.ksiKkgNkg': '10000'}
 
         resp = self.sess.post('https://ap.gaica.jp/p/charge/RW13D4010201', data=payload)
         assert resp.status_code == 200
