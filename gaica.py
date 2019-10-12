@@ -9,10 +9,9 @@ class GaicaClient:
 
     def __init__(self):
         sess = requests.Session()
-
-        resp = sess.get('https://ap.gaica.jp/p/login/RW1312010101')
+        resp = sess.get('https://ap.gaica.jp/p/login/RW1312010001')
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         nablarch_hidden = soup.find('input', {'name': 'nablarch_hidden'}).attrs['value']
         nablarch_needs_hidden_encryption = soup.find('input', {'name': 'nablarch_needs_hidden_encryption'}).attrs[
             'value']
@@ -25,7 +24,7 @@ class GaicaClient:
 
         resp = sess.post('https://ap.gaica.jp/p/login/RW1312010101', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert 'ご利用のご案内' in soup.text
 
         self.sess = sess
@@ -40,7 +39,7 @@ class GaicaClient:
 
         resp = self.sess.post('https://ap.gaica.jp/p/chargeSetting/RW1323000101', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert '新生総合口座パワ' in soup.text
 
         attrs = [a.attrs['value'] for a in soup.find_all('input', {'name': 'nablarch_hidden'}) if
@@ -50,7 +49,7 @@ class GaicaClient:
 
         resp = self.sess.post('https://ap.gaica.jp/p/charge/RW13D4010101', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert 'チャージする通貨の選択とチャージ' in soup.text
 
         # input money.
@@ -63,7 +62,7 @@ class GaicaClient:
 
         resp = self.sess.post('https://ap.gaica.jp/p/charge/RW13D4010201', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert '入力内容に誤りがないか' in soup.text
 
         # https://ap.gaica.jp/p/charge/RW13D4010201
@@ -85,7 +84,7 @@ class GaicaClient:
 
         resp = self.sess.post('https://ap.gaica.jp/p/charge/RW13D4010301', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert 'チャージ手続きが完了しました' in soup.text
         return 'Charged.'
 
@@ -98,7 +97,7 @@ class GaicaClient:
 
         resp = self.sess.post('https://ap.gaica.jp/p/balanceInquiry/RW1314010101', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert 'カード残高の確' in soup.text
 
         attrs = [a.attrs['value'] for a in soup.find_all('input', {'name': 'nablarch_hidden'}) if
@@ -108,7 +107,7 @@ class GaicaClient:
 
         resp = self.sess.post('https://ap.gaica.jp/p/balanceInquiry/RW1314010201', data=payload)
         assert resp.status_code == 200
-        soup = bs4.BeautifulSoup(resp.content, 'lxml')
+        soup = bs4.BeautifulSoup(resp.content, 'html.parser')
         assert '通貨コード' in soup.text
 
         json_result = {}
